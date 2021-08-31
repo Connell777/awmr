@@ -1,0 +1,137 @@
+{% extends 'base.html' %}
+{% load i18n %}
+{% load static %}
+{% block content %}
+{% if user.is_authenticated %}
+  <html>
+<head>
+	<meta charset="utf-8">
+  {% csrf_token %}
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+  <title>{% block title %}Home{% endblock %}</title>
+  <script src='https://api.mapbox.com/mapbox-gl-js/v2.0.0/mapbox-gl.js'></script>
+  <link href='https://api.mapbox.com/mapbox-gl-js/v2.0.0/mapbox-gl.css' rel='stylesheet' />
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+</head>
+<body>
+
+<header>
+    <nav class="navbar navbar-inverse">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+        <a class="navbar-brand" href="#">Parking spaces</a>
+    </div>
+    <div class="collapse navbar-collapse" id="myNavbar">
+      <ul class="nav navbar-nav navbar-right">
+        <li><a href="{% url 'logout' %}">Log Out</a></li>
+        <li><a href="{% url 'password_reset' %}">Reset Password</a></li>
+      </ul>
+    </div>
+  </div>
+</nav>
+<div class="container-fluid text-center">
+  <div class="row content">
+    <div class="col-sm-2 sidenav">
+      <p><button id="dublin" >Dublin</button></p>
+      <p><button id="paris" >Paris</button></p>
+    </div>
+    <div class="col-sm-8 text-left content8">
+      <div  id="dublinMap" style="width: 705px; height: 375px"></div>
+      <div  id="parisMap" style="width: 705px; height: 375px"></div>
+    </div>
+    <div class="col-sm-2 sidenav">
+      <p><button id="dubspots" >Dublin parking spots</button></p>
+      <p><button id="parisspots" >Paris parking spots</button></p>
+    </div>
+  </div>
+</div>
+</header>
+    <script>
+       $(document).ready(function(){
+          $("#dublin").click(function(){
+                mapboxgl.accessToken = 'pk.eyJ1IjoiY29ubmVsbDc3NyIsImEiOiJja2ludDMweHgxNXJlMnFxam16ZjhzbTQ4In0.hRhVNDoq7CYzWz-KCrkfFg';
+                var map = new mapboxgl.Map({
+                  container: 'dublinMap',
+                  style: 'mapbox://styles/mapbox/streets-v11',
+                  center: [ -6.26, 53.35], // starting position [lng, lat]
+                  zoom: 13 // starting zoom
+              });
+              $("#dubspots").click(function(){
+                 var marker = new mapboxgl.Marker()
+                  .setLngLat([-6.278694,53.346554])
+                 .addTo(map);
+
+                 var marker = new mapboxgl.Marker()
+                  .setLngLat([-6.277161,53.347491])
+                 .addTo(map);
+                 var marker = new mapboxgl.Marker()
+                  .setLngLat([-6.275791,53.345952])
+                 .addTo(map);
+
+                 var marker = new mapboxgl.Marker()
+                  .setLngLat([-6.287035,53.356584])
+                 .addTo(map);
+                 var marker = new mapboxgl.Marker()
+                  .setLngLat([-6.278694,53.346554])
+                 .addTo(map);
+
+                 var marker = new mapboxgl.Marker()
+                  .setLngLat([-6.276989,53.346521])
+                 .addTo(map);
+              });
+              $("#parisMap, #singaporeMap, #buenosAiresMap").hide();
+              $("#dublinMap").show();
+          });
+          $("#paris").click(function(){
+                mapboxgl.accessToken = 'pk.eyJ1IjoiY29ubmVsbDc3NyIsImEiOiJja2ludDMweHgxNXJlMnFxam16ZjhzbTQ4In0.hRhVNDoq7CYzWz-KCrkfFg';
+                var map = new mapboxgl.Map({
+                  container: 'parisMap',
+                  style: 'mapbox://styles/mapbox/streets-v11',
+                  center: [ 2.34, 48.86], // starting position [lng, lat]
+                  zoom: 13 // starting zoom
+              });
+              $("#parisspots").click(function(){
+                 var marker = new mapboxgl.Marker()
+                  .setLngLat([2.3675, 48.25789])
+                 .addTo(map);
+
+                 var marker = new mapboxgl.Marker()
+                  .setLngLat([2.346348, 48.8635689])
+                 .addTo(map);
+                 var marker = new mapboxgl.Marker()
+                  .setLngLat([2.35100123, 48.88987])
+                 .addTo(map);
+
+                 var marker = new mapboxgl.Marker()
+                  .setLngLat([2.338635, 48.88643])
+                 .addTo(map);
+                 var marker = new mapboxgl.Marker()
+                  .setLngLat([2.341111, 48.898765])
+                 .addTo(map);
+
+                 var marker = new mapboxgl.Marker()
+                  .setLngLat([2.37453, 48.80857])
+                 .addTo(map);
+              });
+              $("#dublinMap, #singaporeMap, #buenosAiresMap").hide();
+              $("#parisMap").show();
+          });
+
+      });
+
+
+
+    </script>
+</body>
+</html>
+
+{% else %}
+  <p>You are not logged in</p>
+  <a href="{% url 'login' %}">Log In</a>
+{% endif %}
+{% endblock %}
